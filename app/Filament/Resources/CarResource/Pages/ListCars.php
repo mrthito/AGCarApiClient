@@ -26,13 +26,13 @@ class ListCars extends ListRecords
             Actions\CreateAction::make(),
             // ActionsAction::make('Export')->action('openSettingsModal')->color('danger'),
             ActionsAction::make('Import')->color('success')->form([
-                Select::make('db_classification')
-                    ->required()
-                    ->searchable()
-                    ->options([
-                        'KOREA' => 'Korea',
-                        'YEMEN' => 'Yemen'
-                    ]),
+                // Select::make('db_classification')
+                //     ->required()
+                //     ->searchable()
+                //     ->options([
+                //         'KOREA' => 'Korea',
+                //         'YEMEN' => 'Yemen'
+                //     ]),
                 FileUpload::make('file')
                     ->label('Excel File')
             ])
@@ -54,7 +54,7 @@ class ListCars extends ListRecords
                                     $car = Car::updateOrCreate([
                                         'number' => $row[0],
                                     ], [
-                                        'db_classification' => $data['db_classification'],
+                                        // 'db_classification' => $data['db_classification'],
                                         'chasiss_number' => $row[7],
                                         'car_manufacturer' => 1,
                                         'model' => $model->id,

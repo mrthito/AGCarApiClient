@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\SliderResource\Pages;
-use App\Filament\Resources\SliderResource\RelationManagers;
-use App\Models\Slider;
+use App\Filament\Resources\CarMakeResource\Pages;
+use App\Filament\Resources\CarMakeResource\RelationManagers;
+use App\Models\CarMake;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -13,26 +13,20 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class SliderResource extends Resource
+class CarMakeResource extends Resource
 {
-    protected static ?string $model = Slider::class;
+    protected static ?string $model = CarMake::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-photo';
+    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static bool $shouldRegisterNavigation = false;
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('position')
+                Forms\Components\TextInput::make('name')
                     ->required()
-                    ->options([
-                        'slider' => 'Slider',
-                        'homePage' => 'Top',
-                        'carPage' => 'Bottom',
-                    ]),
-                Forms\Components\FileUpload::make('image')
-                    ->image()
-                    ->required(),
+                    ->maxLength(255),
             ]);
     }
 
@@ -40,10 +34,8 @@ class SliderResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('position')
-                    ->sortable()
+                Tables\Columns\TextColumn::make('name')
                     ->searchable(),
-                Tables\Columns\ImageColumn::make('image'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -76,9 +68,9 @@ class SliderResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListSliders::route('/'),
-            'create' => Pages\CreateSlider::route('/create'),
-            'edit' => Pages\EditSlider::route('/{record}/edit'),
+            'index' => Pages\ListCarMakes::route('/'),
+            'create' => Pages\CreateCarMake::route('/create'),
+            'edit' => Pages\EditCarMake::route('/{record}/edit'),
         ];
     }
 }

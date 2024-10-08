@@ -153,6 +153,12 @@ class CarResource extends Resource
                 Tables\Columns\TextColumn::make('fuel_type')
                     ->sortable()
                     ->searchable(),
+                Tables\Columns\ToggleColumn::make('status')
+                    ->label('Show on mobile app')
+                    ->alignCenter(),
+                Tables\Columns\ToggleColumn::make('show_price')
+                    ->label('Show Price on mobile app')
+                    ->alignCenter(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -269,6 +275,46 @@ class CarResource extends Resource
                         ->action(function (Collection $records) {
                             $selectedIds = $records->pluck('id')->toArray();
                             return Excel::download(new CarExport($selectedIds), 'export' . date('Y-m-d') . '.xlsx');
+                        })
+                        ->deselectRecordsAfterCompletion()
+                        ->requiresConfirmation(),
+                    BulkAction::make('status_on')
+                        ->icon('heroicon-o-exclamation-triangle')
+                        ->label('Show on mobile app')
+                        ->color('success')
+                        ->action(function (Collection $records) {
+                            $selectedIds = $records->pluck('id')->toArray();
+                            Car::whereIn('id', $selectedIds)->update(['status' => 1]);
+                        })
+                        ->deselectRecordsAfterCompletion()
+                        ->requiresConfirmation(),
+                    BulkAction::make('status_off')
+                        ->icon('heroicon-o-eye-slash')
+                        ->label('Hide on mobile app')
+                        ->color('warning')
+                        ->action(function (Collection $records) {
+                            $selectedIds = $records->pluck('id')->toArray();
+                            Car::whereIn('id', $selectedIds)->update(['status' => 0]);
+                        })
+                        ->deselectRecordsAfterCompletion()
+                        ->requiresConfirmation(),
+                    BulkAction::make('show_price')
+                        ->icon('heroicon-o-exclamation-triangle')
+                        ->label('Show Price on mobile app')
+                        ->color('success')
+                        ->action(function (Collection $records) {
+                            $selectedIds = $records->pluck('id')->toArray();
+                            Car::whereIn('id', $selectedIds)->update(['show_price' => 1]);
+                        })
+                        ->deselectRecordsAfterCompletion()
+                        ->requiresConfirmation(),
+                    BulkAction::make('hide_price')
+                        ->icon('heroicon-o-eye-slash')
+                        ->label('Hide Price on mobile app')
+                        ->color('warning')
+                        ->action(function (Collection $records) {
+                            $selectedIds = $records->pluck('id')->toArray();
+                            Car::whereIn('id', $selectedIds)->update(['show_price' => 0]);
                         })
                         ->deselectRecordsAfterCompletion()
                         ->requiresConfirmation(),
