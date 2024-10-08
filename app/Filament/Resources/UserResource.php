@@ -37,8 +37,7 @@ class UserResource extends Resource
                     // only show password field when creating a new user
                     ->hiddenOn('edit')
                     ->required()
-                    ->password()
-                    ->confirmed(),
+                    ->password(),
                 Forms\Components\Select::make('role')
                     ->options([
                         'admin' => 'Admin',
