@@ -69,7 +69,7 @@ class AdminPanelProvider extends PanelProvider
                     ->setIcon('heroicon-o-user')
                     ->shouldShowSanctumTokens()
                     ->shouldShowBrowserSessionsForm(),
-                TwoFactorAuthPlugin::make(),
+                // TwoFactorAuthPlugin::make(),
                 // \TomatoPHP\FilamentAccounts\FilamentAccountsPlugin::make(),
                 \Hasnayeen\Themes\ThemesPlugin::make()
             ]);

@@ -33,10 +33,16 @@ class UserResource extends Resource
                 Forms\Components\TextInput::make('phone')
                     ->required()
                     ->maxLength(255),
+                Forms\Components\TextInput::make('password')
+                    // only show password field when creating a new user
+                    ->hiddenOn('edit')
+                    ->required()
+                    ->password()
+                    ->confirmed(),
                 Forms\Components\Select::make('role')
                     ->options([
-                        'user' => 'User',
                         'admin' => 'Admin',
+                        'user' => 'User',
                         'trader' => 'Trader',
                     ])
                     ->required(),
@@ -62,7 +68,8 @@ class UserResource extends Resource
                 Tables\Columns\TextColumn::make('phone'),
                 Tables\Columns\TextColumn::make('role'),
                 Tables\Columns\TextColumn::make('role_pending'),
-                Tables\Columns\IconColumn::make('is_trader'),
+                Tables\Columns\IconColumn::make('is_trader')
+                    ->boolean(fn(User $user) => $user->is_trader == 1),
                 Tables\Columns\TextColumn::make('trader_otp'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
