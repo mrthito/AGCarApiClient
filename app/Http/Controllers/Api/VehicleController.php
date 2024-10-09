@@ -68,6 +68,8 @@ class VehicleController extends Controller
             'total' => $cars->total(),
             'per_page' => $cars->perPage(),
             'current_page' => $cars->currentPage(),
+            'next' => $cars->nextPageUrl(),
+            'prev' => $cars->previousPageUrl(),
         ], 200);
     }
 
