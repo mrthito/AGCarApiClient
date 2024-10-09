@@ -121,7 +121,11 @@ class VehicleController extends Controller
                 }
                 $index++;
             }
+
+            return response()->json(['status' => 'success', 'message' => 'Images uploaded successfully'], 200);
         }
+
+        return response()->json(['status' => 'error', 'message' => 'No image uploaded'], 400);
     }
 
     function base64Image($image)
