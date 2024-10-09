@@ -6,7 +6,7 @@ use App\Http\Controllers\Api\VehicleController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
+Route::middleware(['auth:sanctum'])->get('/v1/user', function (Request $request) {
     return $request->user();
 });
 Route::post('v1/login', [AuthController::class, 'login']);
@@ -21,9 +21,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('v1/account/profile-trader/verify', [AccountController::class, 'verifyProfile']);
     Route::get('v1/account/delete', [AccountController::class, 'delete']);
 
-    Route::get('cars', [VehicleController::class, 'index']);
-    Route::get('cars/single/{id}', [VehicleController::class, 'single']);
-    Route::post('cars/photo/{id}', [VehicleController::class, 'images']);
+    Route::get('v1/cars', [VehicleController::class, 'index']);
+    Route::get('v1/cars/single/{id}', [VehicleController::class, 'single']);
+    Route::post('v1/cars/photo/{id}', [VehicleController::class, 'images']);
 
     // change password
     Route::post('v1/change-password', [AuthController::class, 'changePassword']);
