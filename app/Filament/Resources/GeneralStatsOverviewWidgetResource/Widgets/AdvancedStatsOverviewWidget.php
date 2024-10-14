@@ -15,11 +15,14 @@ class AdvancedStatsOverviewWidget extends BaseWidget
 
     protected function getStats(): array
     {
-        $users = User::count();
-        $cars = Car::count();
-        $image = CarImage::count();
+        $users1 = User::role('admin')->count();
+        $users2 = User::role('camera')->count();
+        $users3 = User::role('user')->count();
+        $users4 = User::role('trader')->count();
+        $wImage = Car::whereHas('carImages')->count();
+        $woImage = Car::whereDoesntHave('carImages')->count();
         return [
-            AdvancedStatsOverviewWidgetStat::make('Total Users', $users)
+            AdvancedStatsOverviewWidgetStat::make('Admin Users', $users1)
                 ->icon('heroicon-o-user')
                 ->progress(100)
                 ->progressBarColor('success')
@@ -28,7 +31,34 @@ class AdvancedStatsOverviewWidget extends BaseWidget
                 ->iconPosition('start')
                 ->descriptionColor('success')
                 ->iconColor('success'),
-            AdvancedStatsOverviewWidgetStat::make('Total Cars', $cars)
+            AdvancedStatsOverviewWidgetStat::make('Camera App Users', $users2)
+                ->icon('heroicon-o-user')
+                ->progress(100)
+                ->progressBarColor('success')
+                ->iconBackgroundColor('success')
+                ->chartColor('success')
+                ->iconPosition('start')
+                ->descriptionColor('success')
+                ->iconColor('success'),
+            AdvancedStatsOverviewWidgetStat::make('Regular Users', $users3)
+                ->icon('heroicon-o-user')
+                ->progress(100)
+                ->progressBarColor('success')
+                ->iconBackgroundColor('success')
+                ->chartColor('success')
+                ->iconPosition('start')
+                ->descriptionColor('success')
+                ->iconColor('success'),
+            AdvancedStatsOverviewWidgetStat::make('Trader Users', $users4)
+                ->icon('heroicon-o-user')
+                ->progress(100)
+                ->progressBarColor('success')
+                ->iconBackgroundColor('success')
+                ->chartColor('success')
+                ->iconPosition('start')
+                ->descriptionColor('success')
+                ->iconColor('success'),
+            AdvancedStatsOverviewWidgetStat::make('Cars with Images', $wImage)
                 ->icon('heroicon-o-truck')
                 ->progress(100)
                 ->progressBarColor('warning')
@@ -36,7 +66,7 @@ class AdvancedStatsOverviewWidget extends BaseWidget
                 ->chartColor('warning')
                 ->iconPosition('start')
                 ->descriptionColor('warning'),
-            AdvancedStatsOverviewWidgetStat::make('Images', $image)
+            AdvancedStatsOverviewWidgetStat::make('Cars without Images', $woImage)
                 ->icon('heroicon-o-photo')
                 ->progress(100)
                 ->progressBarColor('primary')

@@ -22,10 +22,11 @@ class AccountController extends Controller
             'name' => $user->name,
             'email' => $user->email,
             'phone' => $user->phone,
-            'role' => $user->role,
-            'is_trader' => $user->is_trader,
+            'role' => $user->role == 'trader' ? ['user', 'trader'] : [$user->role],
+            'is_trader' => $user->is_trader ?? 0,
             'created_at' => $user->created_at,
             'pending_role' => $user->role_pending,
+            'trader' => $user->role == 'trader' ? '1' : ($user->role_pending == 'trader' ? '0' : null),
             'need_verification' => $user->email_verified_at == null ? true : false,
         ];
 
@@ -120,7 +121,7 @@ class AccountController extends Controller
 
         if ($role == 'trader') {
             $user->role = 'user';
-            if($user->is_trader == 1) {
+            if ($user->is_trader == 1) {
                 $user->role = 'trader';
             }
         } else {

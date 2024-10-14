@@ -156,6 +156,9 @@ class CarResource extends Resource
                 Tables\Columns\ToggleColumn::make('status')
                     ->label('Show on mobile app')
                     ->alignCenter(),
+                Tables\Columns\ToggleColumn::make('status_camera')
+                    ->label('Show on camera app')
+                    ->alignCenter(),
                 Tables\Columns\ToggleColumn::make('show_price')
                     ->label('Show Price on mobile app')
                     ->alignCenter(),

@@ -33,7 +33,7 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 
 // Vehicle
-Route::get('v1/vehicles/car', [VehicleController::class, 'index']);
+Route::get('v1/vehicles/car', [VehicleController::class, 'indexNew']);
 Route::get('v1/vehicles/manufacturer', [VehicleController::class, 'manufacturer']);
 Route::get('v1/vehicles/model', [VehicleController::class, 'model']);
 Route::get('v1/vehicles/get-model-by-manufacturer/{manufacturer}', [VehicleController::class, 'getModelByManufacturer']);

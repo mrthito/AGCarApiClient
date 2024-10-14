@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Car;
 use App\Models\CarImage;
+use App\Models\CarMake;
+use App\Models\CarModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Ramsey\Uuid\Uuid;
@@ -21,9 +23,69 @@ class VehicleController extends Controller
     public function index(Request $request)
     {
         $perPage = $request->input('per_page', 15);
-        $role = $request->input('role');
+        $cars = Car::with(['carManufacturer', 'carModel'])
+            ->when($request->has('search') && $request->input('search') != '', function ($query) use ($request) {
+                $query->where(function ($query) use ($request) {
+                    $query->where('db_classification', 'like', '%' . $request->input('search') . '%')
+                        ->orWhere('chasiss_number', 'like', '%' . $request->input('search') . '%')
+                        ->orWhere('car_manufacturer', 'like', '%' . $request->input('search') . '%')
+                        ->orWhere('model', 'like', '%' . $request->input('search') . '%')
+                        ->orWhere('year', 'like', '%' . $request->input('search') . '%')
+                        ->orWhere('color', 'like', '%' . $request->input('search') . '%')
+                        ->orWhere('fuel_type', 'like', '%' . $request->input('search') . '%')
+                        ->orWhere('number', 'like', '%' . $request->input('search') . '%')
+                        ->orWhere('content', 'like', '%' . $request->input('search') . '%')
+                        ->orWhere('status', 'like', '%' . $request->input('search') . '%')
+                        ->orWhere('show_price', 'like', '%' . $request->input('search') . '%')
+                        ->orWhere('price', 'like', '%' . $request->input('search') . '%');
+                });
+            })
+            ->where('status_camera', 1)
+            ->paginate($perPage);
+        $newCars = $cars->map(function ($car) {
+            return [
+                'id' => $car->id,
+                'image' => $car->image ? asset('storage/' . $car->image) : null,
+                'db_classification' => $car->db_classification,
+                'chasiss_number' => $car->chasiss_number,
+                'car_manufacturer' => $car->carManufacturer->name,
+                'model' => $car->carModel->name,
+                'year' => $car->year,
+                'color' => $car->color,
+                'fuel_type' => $car->fuel_type,
+                'number' => $car->number,
+                'content' => $car->content,
+                'status' => $car->status,
+                'show_price' => $car->show_price,
+                'price' => $car->price,
 
-        // all vehicle data
+                'buyer' => $car->buyer,
+                'buying_date' => $car->buying_date,
+                'company_source' => $car->company_source,
+                'korean_price' => $car->korean_price,
+                'price_in_dollar' => $car->price_in_dollar,
+                'shipping_price' => $car->shipping_price,
+                'custom_price' => $car->custom_price,
+                'fixing_price' => $car->fixing_price,
+                'total_cost' => $car->total_cost,
+                'city' => $car->city,
+                'arrival_date' => $car->arrival_date,
+            ];
+        });
+
+        return response()->json([
+            'status' => 'success',
+            'data' => $newCars,
+            'total' => $cars->total(),
+            'per_page' => $cars->perPage(),
+            'current_page' => $cars->currentPage(),
+            'next' => $cars->nextPageUrl(),
+            'prev' => $cars->previousPageUrl(),
+        ], 200);
+    }
+    public function indexNew(Request $request)
+    {
+        $perPage = $request->input('per_page', 15);
         $cars = Car::with(['carManufacturer', 'carModel'])
             ->when($request->has('search') && $request->input('search') != '', function ($query) use ($request) {
                 $query->where(function ($query) use ($request) {
@@ -58,7 +120,19 @@ class VehicleController extends Controller
                 'content' => $car->content,
                 'status' => $car->status,
                 'show_price' => $car->show_price,
-                'price' => $car->price
+                'price' => $car->price,
+
+                'buyer' => $car->buyer,
+                'buying_date' => $car->buying_date,
+                'company_source' => $car->company_source,
+                'korean_price' => $car->korean_price,
+                'price_in_dollar' => $car->price_in_dollar,
+                'shipping_price' => $car->shipping_price,
+                'custom_price' => $car->custom_price,
+                'fixing_price' => $car->fixing_price,
+                'total_cost' => $car->total_cost,
+                'city' => $car->city,
+                'arrival_date' => $car->arrival_date,
             ];
         });
 
@@ -251,8 +325,7 @@ class VehicleController extends Controller
      */
     public function manufacturer(Request $request)
     {
-        // all manufacturer data
-        $manufacturers = Car::select('car_manufacturer')->where('car_manufacturer', '<>', null)->groupBy('car_manufacturer')->get();
+        $manufacturers = CarMake::select('id', 'name')->get();
         return response()->json(['status' => 'success', 'data' => $manufacturers], 200);
     }
 
@@ -264,9 +337,7 @@ class VehicleController extends Controller
      */
     public function model(Request $request)
     {
-        // all model data
-        $models = Car::select('model')->where('model', '<>', null)->groupBy('model')->get();
-
+        $models = CarModel::get()->pluck('name', 'id');
         return response()->json(['status' => 'success', 'data' => $models], 200);
     }
 
@@ -278,9 +349,7 @@ class VehicleController extends Controller
      */
     public function getModelByManufacturer(Request $request, $manufacturer)
     {
-        // all model data
-        $models = Car::select('model')->where('car_manufacturer', $manufacturer)->distinct()->get();
-
+        $models = CarModel::where('car_make_id', $manufacturer)->get()->pluck('name', 'id');
         return response()->json(['status' => 'success', 'data' => $models], 200);
     }
 }

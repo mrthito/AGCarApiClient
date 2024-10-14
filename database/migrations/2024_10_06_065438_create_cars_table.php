@@ -24,8 +24,20 @@ return new class extends Migration
             $table->string('number')->nullable();
             $table->text('content')->nullable();
             $table->boolean('status')->default(0);
+            $table->boolean('status_camera')->default(0);
             $table->boolean('show_price')->default(0);
             $table->double('price')->nullable();
+            $table->string('buyer')->nullable();
+            $table->string('buying_date')->nullable();
+            $table->string('company_source')->nullable();
+            $table->double('korean_price')->nullable();
+            $table->double('price_in_dollar')->nullable();
+            $table->double('shipping_price')->nullable();
+            $table->double('custom_price')->nullable();
+            $table->double('fixing_price')->nullable();
+            $table->double('total_cost')->nullable();
+            $table->string('city')->nullable();
+            $table->string('arrival_date')->nullable();
             $table->timestamps();
         });
     }

@@ -54,4 +54,14 @@ class User extends Authenticatable
             'two_factor_type' => TwoFactorType::class,
         ];
     }
+
+    /**
+     * Get the user's role.
+     *
+     * @return string
+     */
+    public function scopeRole($query, string $role): void
+    {
+        $query->where('role', $role);
+    }
 }

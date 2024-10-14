@@ -21,8 +21,20 @@ class Car extends Model
         'number',
         'content',
         'status',
+        'status_camera',
         'show_price',
-        'price'
+        'price',
+        'buyer',
+        'buying_date',
+        'company_source',
+        'korean_price',
+        'price_in_dollar',
+        'shipping_price',
+        'custom_price',
+        'fixing_price',
+        'total_cost',
+        'city',
+        'arrival_date',
     ];
 
     public function carImages()
@@ -39,5 +51,4 @@ class Car extends Model
     {
         return $this->belongsTo(CarModel::class, 'model');
     }
-
 }
