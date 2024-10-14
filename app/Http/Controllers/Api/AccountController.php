@@ -85,7 +85,7 @@ class AccountController extends Controller
     {
         $user = $request->user();
         $otp = rand(1000, 9999);
-        $user->notify(new SwitchProfile($otp));
+        // $user->notify(new SwitchProfile($otp));
         $user->trader_otp = $otp;
         $user->role_pending = $type;
         $user->save();
