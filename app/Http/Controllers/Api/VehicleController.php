@@ -177,10 +177,7 @@ class VehicleController extends Controller
             'city' => $vehicle->city,
             'arrival_date' => $vehicle->arrival_date,
             'images' => $vehicle->carImages->map(function ($image) {
-                return [
-                    'id' => $image->id,
-                    'image' => $image->image ? asset('storage/' . $image->image) : null,
-                ];
+                return $image->image ? asset('storage/' . $image->image) : null;
             })
         ];
         return response()->json(['status' => 'success', 'data' => $data], 200);
