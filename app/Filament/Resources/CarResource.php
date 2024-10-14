@@ -122,7 +122,8 @@ class CarResource extends Resource
 
                 Forms\Components\TextInput::make('buyer')
                     ->required(),
-                Forms\Components\TextInput::make('buying_date')
+                Forms\Components\DatePicker::make('buying_date')
+                    ->native(false)
                     ->required(),
                 Forms\Components\TextInput::make('company_source')
                     ->required(),

@@ -26,7 +26,7 @@ class AccountController extends Controller
             'is_trader' => $user->is_trader ?? 0,
             'created_at' => $user->created_at,
             'pending_role' => $user->role_pending,
-            'trader' => $user->role == 'trader' ? '1' : ($user->role_pending == 'trader' ? '0' : null),
+            'trader_status' => $user->role == 'trader' ? '1' : ($user->role_pending == 'trader' ? '0' : null),
             'need_verification' => $user->email_verified_at == null ? true : false,
         ];
 
