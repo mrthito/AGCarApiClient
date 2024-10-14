@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller
 {
@@ -199,6 +200,8 @@ class AuthController extends Controller
         ], [
             'otp.required' => 'OTP is required',
         ]);
+
+        Log::info($request->all());
 
         if ($validate->fails()) {
             return response()->json(['message' => $validate->errors()->first()], 422);
