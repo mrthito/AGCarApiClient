@@ -202,7 +202,7 @@ class AuthController extends Controller
             ];
             return response()->json(['message' => 'OTP verified successfully', 'user' => $data], 200);
         } else {
-            return response()->json(['message' => 'Invalid OTP',], 400);
+            return response()->json(['message' => 'Invalid OTP' . $user->email,], 400);
         }
     }
 
