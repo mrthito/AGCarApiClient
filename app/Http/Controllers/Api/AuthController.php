@@ -216,6 +216,7 @@ class AuthController extends Controller
             $user->save();
 
             $data = [
+                'token'     => $user->createToken('CarApp')->plainTextToken,
                 'name'      => $user->name,
                 'email'     => $user->email,
                 'phone'     => $user->phone,
