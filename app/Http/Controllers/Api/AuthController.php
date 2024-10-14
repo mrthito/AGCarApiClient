@@ -196,6 +196,8 @@ class AuthController extends Controller
     {
         $validate = Validator::make($request->all(), [
             'otp' => 'required',
+        ], [
+            'otp.required' => 'OTP is required',
         ]);
 
         if ($validate->fails()) {
