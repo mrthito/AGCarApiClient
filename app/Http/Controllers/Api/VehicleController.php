@@ -165,6 +165,17 @@ class VehicleController extends Controller
             'status' => $vehicle->status,
             'show_price' => $vehicle->show_price,
             'price' => $vehicle->price,
+            'buyer' => $vehicle->buyer,
+            'buying_date' => $vehicle->buying_date,
+            'company_source' => $vehicle->company_source,
+            'korean_price' => $vehicle->korean_price,
+            'price_in_dollar' => $vehicle->price_in_dollar,
+            'shipping_price' => $vehicle->shipping_price,
+            'custom_price' => $vehicle->custom_price,
+            'fixing_price' => $vehicle->fixing_price,
+            'total_cost' => $vehicle->total_cost,
+            'city' => $vehicle->city,
+            'arrival_date' => $vehicle->arrival_date,
             'images' => $vehicle->carImages->map(function ($image) {
                 return [
                     'id' => $image->id,
