@@ -337,7 +337,13 @@ class VehicleController extends Controller
      */
     public function model(Request $request)
     {
-        $models = CarModel::get()->pluck('name', 'id');
+        $models = CarModel::get()->map(function ($model) {
+            return [
+                'id' => $model->id,
+                'name' => $model->name,
+                'manufacturer' => $model->carMake->name,
+            ];
+        });
         return response()->json(['status' => 'success', 'data' => $models], 200);
     }
 
@@ -349,7 +355,13 @@ class VehicleController extends Controller
      */
     public function getModelByManufacturer(Request $request, $manufacturer)
     {
-        $models = CarModel::where('car_make_id', $manufacturer)->get()->pluck('name', 'id');
+        $models = CarModel::where('car_make_id', $manufacturer)->get()->map(function ($model) {
+            return [
+                'id' => $model->id,
+                'name' => $model->name,
+                'manufacturer' => $model->carMake->name,
+            ];
+        });
         return response()->json(['status' => 'success', 'data' => $models], 200);
     }
 }

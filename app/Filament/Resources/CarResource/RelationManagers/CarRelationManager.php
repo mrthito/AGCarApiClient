@@ -20,7 +20,7 @@ class CarRelationManager extends RelationManager
             ->schema([
                 Forms\Components\FileUpload::make('image')
                     ->required()
-                    ->image()
+                    ->image(),
             ]);
     }
 

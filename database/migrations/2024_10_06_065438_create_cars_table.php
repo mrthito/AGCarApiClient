@@ -38,6 +38,7 @@ return new class extends Migration
             $table->double('total_cost')->nullable();
             $table->string('city')->nullable();
             $table->string('arrival_date')->nullable();
+            $table->string('show_to')->default('all');
             $table->timestamps();
         });
     }

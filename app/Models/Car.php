@@ -35,6 +35,7 @@ class Car extends Model
         'total_cost',
         'city',
         'arrival_date',
+        'show_to'
     ];
 
     public function carImages()
