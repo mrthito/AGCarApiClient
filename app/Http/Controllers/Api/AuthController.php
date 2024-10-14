@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Notifications\ResetUserEmail;
 use App\Notifications\SendOtp;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -14,12 +15,28 @@ use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
-    private function generatePassword($password)
+    function forgot(Request $request)
     {
-        $iterations = 12000;
-        $salt = base64_encode(random_bytes(16)); // 16 bytes = 128 bits
-        $hash = hash_pbkdf2('sha256', $password, base64_decode($salt), $iterations, 64, true);
-        return "sha256:$iterations:$salt:" . base64_encode($hash);
+        $validate = Validator::make($request->all(), [
+            'email' => 'required',
+        ]);
+
+        if ($validate->fails()) {
+            return response()->json(['message' => $validate->errors()->first()], 422);
+        }
+
+        $user = User::where('email', $request->input('email'))->first();
+
+        if ($user) {
+            $newPassword = $this->generateAlphanumericOtp(8);
+            // $user->notify(new ResetUserEmail($newPassword));
+            $user->password = Hash::make($newPassword);
+            $user->save();
+
+            return response()->json(['password' => $newPassword, 'message' => 'Your Password has been reset successfully. Please check your email for new password.'], 200);
+        } else {
+            return response()->json(['message' => 'Email not found'], 404);
+        }
     }
 
     // verify sha password
