@@ -162,6 +162,8 @@ class CarResource extends Resource
                 Tables\Columns\ToggleColumn::make('show_price')
                     ->label('Show Price on mobile app')
                     ->alignCenter(),
+                    // buyer	buying_date	company_source	korean_price	price_in_dollar	shipping_price	custom_price	fixing_price	total_cost	city	arrival_date
+                    
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

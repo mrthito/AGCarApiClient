@@ -113,7 +113,7 @@ class AuthController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['message' => 'Please fill all required fields'], 422);
+            return response()->json(['message' => $validator->errors()->first()], 422);
         }
 
         try {
