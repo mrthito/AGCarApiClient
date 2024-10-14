@@ -189,7 +189,7 @@ class AuthController extends Controller
 
         $otp = DB::table('password_reset_tokens')->where('email', $user->email)->first();
 
-        if ($otp->token == $request->input('otp')) {
+        if ($otp && $otp->token == $request->input('otp')) {
             $user->email_verified_at = now();
             $user->save();
 

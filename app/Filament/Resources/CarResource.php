@@ -118,12 +118,44 @@ class CarResource extends Resource
                 Forms\Components\RichEditor::make('content')
                     ->required()
                     ->columnSpanFull(),
-            Forms\Components\Toggle::make('status')
-                ->label('Show this car on mobile app')
-                ->columnSpanFull(),
-            Forms\Components\Toggle::make('status_camera')
-                ->label('Show this car on camera app')
-                ->columnSpanFull(),
+                // buyer	arrival_date
+
+                Forms\Components\TextInput::make('buyer')
+                    ->required(),
+                Forms\Components\TextInput::make('buying_date')
+                    ->required(),
+                Forms\Components\TextInput::make('company_source')
+                    ->required(),
+                Forms\Components\TextInput::make('korean_price')
+                    ->numeric()
+                    ->prefix('WON')
+                    ->required(),
+                Forms\Components\TextInput::make('price_in_dollar')
+                    ->numeric()
+                    ->prefix('$')
+                    ->required(),
+                Forms\Components\TextInput::make('shipping_price')
+                    ->numeric()
+                    ->prefix('$'),
+                Forms\Components\TextInput::make('custom_price')
+                    ->numeric()
+                    ->prefix('$'),
+                Forms\Components\TextInput::make('fixing_price')
+                    ->numeric()
+                    ->prefix('$'),
+                Forms\Components\TextInput::make('total_cost')
+                    ->numeric()
+                    ->prefix('$'),
+                Forms\Components\TextInput::make('city')
+                    ->required(),
+                Forms\Components\TextInput::make('arrival_date')
+                    ->required(),
+                Forms\Components\Toggle::make('status')
+                    ->label('Show this car on mobile app')
+                    ->columnSpanFull(),
+                Forms\Components\Toggle::make('status_camera')
+                    ->label('Show this car on camera app')
+                    ->columnSpanFull(),
                 Forms\Components\Toggle::make('show_price')
                     ->label('Show Price on mobile app')
                     ->columnSpanFull(),
