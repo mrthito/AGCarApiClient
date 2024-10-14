@@ -195,13 +195,13 @@ class AuthController extends Controller
     // verify otp
     public function verifyOtp(Request $request)
     {
+        Log::info($request->all());
         $validate = Validator::make($request->all(), [
             'otp' => 'required',
         ], [
             'otp.required' => 'OTP is required',
         ]);
 
-        Log::info($request->all());
 
         if ($validate->fails()) {
             return response()->json(['message' => $validate->errors()->first()], 422);
