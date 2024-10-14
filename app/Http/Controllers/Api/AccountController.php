@@ -128,7 +128,6 @@ class AccountController extends Controller
             $user->role = 'user';
         }
 
-
         $data = [
             'name' => $user->name,
             'email' => $user->email,

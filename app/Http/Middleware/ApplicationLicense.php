@@ -19,14 +19,14 @@ class ApplicationLicense
     {
         $status = Cache::remember('status', 60 * 60, function () {
             $status = \App\Models\Status::first();
-            $url = Http::get('http://license.ucaryeman.com/index.php?page=verify&lisence=$status->token')->json();
-            if ($url['status'] != 'error') {
-                $status->status = true;
-                $status->save();
-            } else {
-                $status->status = false;
-                $status->save();
-            }
+            // $url = Http::get('http://license.ucaryeman.com/index.php?page=verify&lisence=$status->token')->json();
+            // if ($url['status'] != 'error') {
+            //     $status->status = true;
+            //     $status->save();
+            // } else {
+            //     $status->status = false;
+            //     $status->save();
+            // }
             return $status;
         });
 
