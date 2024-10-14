@@ -49,7 +49,7 @@ class AccountController extends Controller
         ]);
 
         if ($validate->fails()) {
-            return response()->json(['status' => 'error', 'message' => 'Validation failed', 'errors' => $validate->errors()->first()], 422);
+            return response()->json(['status' => 'error', 'message' => $validate->errors()->first()], 422);
         }
 
         $user = $request->user();

@@ -64,7 +64,7 @@ class AuthController extends Controller
         ]);
 
         if ($validate->fails()) {
-            return response()->json(['message' => 'Please fill all required fields'], 422);
+            return response()->json(['message' => $validate->errors()->first()], 422);
         }
 
         if (Auth::attempt(['email' => $request->input('email'), 'password' => $request->input('password')])) {
@@ -182,7 +182,7 @@ class AuthController extends Controller
         ]);
 
         if ($validate->fails()) {
-            return response()->json(['message' => 'Please fill all required fields'], 422);
+            return response()->json(['message' => $validate->errors()->first()], 422);
         }
 
         $user = $request->user();
@@ -236,7 +236,7 @@ class AuthController extends Controller
         ]);
 
         if ($validate->fails()) {
-            return response()->json(['status' => 'error', 'message' => 'Validation failed', 'errors' => $validate->errors()->first()], 422);
+            return response()->json(['status' => 'error', 'message' => $validate->errors()->first()], 422);
         }
 
         $user = $request->user();
