@@ -80,7 +80,7 @@ class AuthController extends Controller
                     'created_at' => now(),
                 ]);
 
-                $user->notify(new SendOtp($otp));
+                // $user->notify(new SendOtp($otp));
             }
 
             $data = [
@@ -146,7 +146,7 @@ class AuthController extends Controller
                             'created_at' => now(),
                         ]);
 
-                        $user->notify(new SendOtp($otp));
+                        // $user->notify(new SendOtp($otp));
 
                         $data = [
                             'token'     => $tokenString,
