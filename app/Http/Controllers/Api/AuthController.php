@@ -127,7 +127,7 @@ class AuthController extends Controller
             if ($password == $confirm_password) {
                 $otp = rand(111111, 999999);
 
-                DB::transaction(function () use ($request, $password, $otp) {
+                $data = DB::transaction(function () use ($request, $password, $otp) {
                     $user = new User();
                     $user->name = $request->input('name');
                     $user->email = $request->input('email');
@@ -156,13 +156,13 @@ class AuthController extends Controller
                             'role'      => $user->role,
                             'need_verification' => $user->email_verified_at == null ? true : false,
                         ];
-
+                        return $data;
                         // return response()->json([ 'message' => 'Registration successful', 'user' => $data, // 'token' => $token, // Uncomment if using tokens ], 200);
-                        return response()->json(['message' => 'Registration successful', 'user' => $data], 200);
                     } else {
                         throw new \Exception('Failed to save user.');
                     }
                 });
+                return response()->json(['message' => 'Registration successful', 'user' => $data], 200);
             } else {
                 return response()->json(['message' => 'Password & Confirm Password should be matched.',], 500);
             }

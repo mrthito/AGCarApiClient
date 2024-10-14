@@ -118,9 +118,12 @@ class CarResource extends Resource
                 Forms\Components\RichEditor::make('content')
                     ->required()
                     ->columnSpanFull(),
-                Forms\Components\Toggle::make('status')
-                    ->label('Show this car on mobile app')
-                    ->columnSpanFull(),
+            Forms\Components\Toggle::make('status')
+                ->label('Show this car on mobile app')
+                ->columnSpanFull(),
+            Forms\Components\Toggle::make('status_camera')
+                ->label('Show this car on camera app')
+                ->columnSpanFull(),
                 Forms\Components\Toggle::make('show_price')
                     ->label('Show Price on mobile app')
                     ->columnSpanFull(),
@@ -162,8 +165,40 @@ class CarResource extends Resource
                 Tables\Columns\ToggleColumn::make('show_price')
                     ->label('Show Price on mobile app')
                     ->alignCenter(),
-                    // buyer	buying_date	company_source	korean_price	price_in_dollar	shipping_price	custom_price	fixing_price	total_cost	city	arrival_date
-                    
+
+                Tables\Columns\TextColumn::make('buyer')
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('buying_date')
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('company_source')
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('korean_price')
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('price_in_dollar')
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('shipping_price')
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('custom_price')
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('fixing_price')
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('total_cost')
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('city')
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('arrival_date')
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
