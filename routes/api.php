@@ -40,6 +40,5 @@ Route::get('v1/vehicles/model', [VehicleController::class, 'model']);
 Route::get('v1/vehicles/get-model-by-manufacturer/{manufacturer}', [VehicleController::class, 'getModelByManufacturer']);
 Route::post('v1/vehicles/search', [VehicleController::class, 'index']);
 Route::post('v1/vehicles/filter-search', [VehicleController::class, 'index']);
-Route::get('v1/vehicles/car/show/{id}', [VehicleController::class, 'show']);
-Route::get('v1/vehicles/car/show/{id}', [VehicleController::class, 'show']);
+Route::get('v1/vehicles/car/show/{id}', [VehicleController::class, 'single']);
 Route::get('v1/vehicles/similar-cars/{id}', [VehicleController::class, 'similarCars']);
