@@ -30,6 +30,7 @@ class AccountController extends Controller
             'trader_status' => $user->role == 'trader' ? '1' : ($user->role_pending == 'trader' ? '0' : null),
             'need_verification' => $user->email_verified_at == null ? true : false,
         ];
+        Log::info('ProfileToSwitch111', $data);
 
         return response()->json(['status' => 'success', 'data' => $data], 200);
     }
@@ -138,6 +139,8 @@ class AccountController extends Controller
             'role' => $user->role,
             'created_at' => $user->created_at,
         ];
+
+        Log::info('ProfileToSwitch', $data);
 
         if ($user->save()) {
             return response()->json(['status' => 'success', 'message' => 'Profile switch successfully', 'data' => $data,], 200);
