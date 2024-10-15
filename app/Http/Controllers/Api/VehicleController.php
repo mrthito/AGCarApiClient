@@ -8,7 +8,6 @@ use App\Models\CarImage;
 use App\Models\CarMake;
 use App\Models\CarModel;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Ramsey\Uuid\Uuid;
 

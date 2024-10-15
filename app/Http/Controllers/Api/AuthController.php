@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller
 {
@@ -195,7 +194,6 @@ class AuthController extends Controller
     // verify otp
     public function verifyOtp(Request $request)
     {
-        Log::info($request->all());
         $validate = Validator::make($request->all(), [
             'otp' => 'required',
         ], [
