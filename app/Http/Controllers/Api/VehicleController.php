@@ -86,7 +86,6 @@ class VehicleController extends Controller
     }
     public function indexNew(Request $request)
     {
-        Log::info('request', $request->all());
         $perPage = $request->input('per_page', 15);
         $cars = Car::with(['carManufacturer', 'carModel'])
             ->when($request->has('search') && $request->input('search') != '', function ($query) use ($request) {
@@ -106,6 +105,9 @@ class VehicleController extends Controller
                 });
             })
             ->where('status', 1)
+            ->when($request->has('role') && $request->input('role') != 'all' && $request->input('role') != '', function ($query) use ($request) {
+                $query->where('show_to', $request->input('role'));
+            })
             ->paginate($perPage);
         $newCars = $cars->map(function ($car) {
             return [
