@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Notifications\SwitchProfile;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 class AccountController extends Controller
@@ -83,6 +84,7 @@ class AccountController extends Controller
      */
     public function switchProfile(Request $request, $type)
     {
+        Log::info('switchProfile');
         $user = $request->user();
         $otp = rand(111111, 999999);
         // $user->notify(new SwitchProfile($otp));
@@ -116,6 +118,7 @@ class AccountController extends Controller
      */
     public function profileToSwitch(Request $request)
     {
+        Log::info('profileToSwitch');
         $user = $request->user();
         $role = $request->input('role');
 
