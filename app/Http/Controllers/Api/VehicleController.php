@@ -8,6 +8,7 @@ use App\Models\CarImage;
 use App\Models\CarMake;
 use App\Models\CarModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Ramsey\Uuid\Uuid;
 
@@ -85,6 +86,7 @@ class VehicleController extends Controller
     }
     public function indexNew(Request $request)
     {
+        Log::info('request', $request->all());
         $perPage = $request->input('per_page', 15);
         $cars = Car::with(['carManufacturer', 'carModel'])
             ->when($request->has('search') && $request->input('search') != '', function ($query) use ($request) {
