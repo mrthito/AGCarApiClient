@@ -39,7 +39,7 @@ class VehicleController extends Controller
                         ->orWhere('city', 'like', '%' . $request->input('search') . '%')
                         ->orWhere('price', 'like', '%' . $request->input('search') . '%');
                 })
-                    ->oWhereHas('carManufacturer', function ($query) use ($request) {
+                    ->orWhereHas('carManufacturer', function ($query) use ($request) {
                         $query->where('name', 'like', '%' . $request->input('search') . '%');
                     })
                     ->orWhereHas('carModel', function ($query) use ($request) {
