@@ -225,7 +225,6 @@ class VehicleController extends Controller
 
     function images(Request $request, $id)
     {
-        try {
             $vehicle = Car::findOrFail($id);
             $vehicle->status_camera = 0;
             $vehicle->save();
@@ -236,6 +235,7 @@ class VehicleController extends Controller
             if ($images) {
                 $index = 0;
                 foreach ($images as $image) {
+                    try{
                     $makeImage = $this->base64Image($image);
                     if ($index == 0) {
                         $vehicle->image = $makeImage;
@@ -247,13 +247,11 @@ class VehicleController extends Controller
                         ]);
                     }
                     $index++;
+                }catch(\Exception $e){
                 }
 
                 return response()->json(['status' => 'success', 'message' => 'Images uploaded successfully'], 200);
             }
-        } catch (\Exception $e) {
-            return response()->json(['status' => 'error', 'message' => $e->getMessage()], 400);
-        }
 
         return response()->json(['status' => 'error', 'message' => 'No image uploaded'], 400);
     }
@@ -477,5 +475,18 @@ class VehicleController extends Controller
             ];
         });
         return response()->json(['status' => 'success', 'data' => $models], 200);
+    }
+
+    function sliders(){
+        $slider = Slider::where('position', 'homePage')->latest()->first()?->image;
+        $slider2 = Slider::where('position', 'homePage')->latest()->first()?->image;
+        $slider3 = Slider::where('position', 'slider')->latest()->get()?->map(function($slider){
+            return $slider->image;
+        });
+        return response()->json(['status' => 'success', 'data' => [
+            'slider' => $slider,
+            'homePage' => $slider2,
+            'carPage' => $slider3
+        ]], 200);
     }
 }

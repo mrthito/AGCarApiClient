@@ -28,6 +28,8 @@ Route::middleware([ApplicationLicense::class])->group(function () {
         Route::get('v1/cars/single/{id}', [VehicleController::class, 'single']);
         Route::post('v1/cars/photo/{id}', [VehicleController::class, 'images']);
 
+        Route::post('v1/sliders', [VehicleController::class, 'sliders']);
+
         // change password
         Route::post('v1/change-password', [AuthController::class, 'changePassword']);
 
