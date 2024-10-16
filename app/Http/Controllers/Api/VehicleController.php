@@ -143,8 +143,12 @@ class VehicleController extends Controller
                 $query->where('year', 'like', '%' . $request->input('year') . '%');
             })
             ->where('status', 1)
-            ->when($request->has('role') && $request->input('role') != 'all' && $request->input('role') != '', function ($query) use ($request) {
-                $query->where('show_to', $request->input('role'));
+            ->when($request->has('role')  && $request->input('role') != '', function ($query) use ($request) {
+                if ($request->input('role') == 'user') {
+                    $query->where('show_to', 'like', '%' . $request->input('role') . '%');
+                } elseif ($request->input('role') == 'trader') {
+                    $query->where('show_to', 'like', '%' . $request->input('role') . '%');
+                }
             })
             ->paginate($perPage);
         $newCars = $cars->map(function ($car) {
