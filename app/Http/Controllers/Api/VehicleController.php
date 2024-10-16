@@ -480,15 +480,15 @@ class VehicleController extends Controller
 
     function sliders()
     {
-        $slider = Slider::where('position', 'homePage')->latest()->first()?->image;
+        $slider = Slider::where('position', 'carPage')->latest()->first()?->image;
         $slider2 = Slider::where('position', 'homePage')->latest()->first()?->image;
         $slider3 = Slider::where('position', 'slider')->latest()->get()?->map(function ($slider) {
             return $slider->image;
         });
         return response()->json(['status' => 'success', 'data' => [
-            'slider' => $slider,
+            'carPage' => $slider,
             'homePage' => $slider2,
-            'carPage' => $slider3
+            'slider' => $slider3
         ]], 200);
     }
 }
