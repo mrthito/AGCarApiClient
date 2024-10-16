@@ -107,6 +107,7 @@ class VehicleController extends Controller
     public function indexNew(Request $request)
     {
         $perPage = $request->input('per_page', 15);
+        Log::info($request->all());
         $cars = Car::with(['carManufacturer', 'carModel'])
             ->when($request->has('search') && $request->input('search') != '', function ($query) use ($request) {
                 $query->where(function ($query) use ($request) {
@@ -143,15 +144,15 @@ class VehicleController extends Controller
                 $query->where('year', 'like', '%' . $request->input('year') . '%');
             })
             ->where('status', 1)
-            ->when($request->has('role')  && $request->input('role') != '', function ($query) use ($request) {
-                if ($request->input('role') == 'user') {
-                    $query->where('show_to', 'like', '%' . $request->input('role') . '%');
-                } elseif ($request->input('role') == 'trader') {
-                    $query->where('show_to', 'like', '%' . $request->input('role') . '%');
-                } else {
-                    $query->where('show_to', '!=', '');
-                }
-            })
+            // ->when($request->has('role')  && $request->input('role') != '', function ($query) use ($request) {
+            //     if ($request->input('role') == 'user') {
+            //         $query->where('show_to', 'like', '%' . $request->input('role') . '%');
+            //     } elseif ($request->input('role') == 'trader') {
+            //         $query->where('show_to', 'like', '%' . $request->input('role') . '%');
+            //     } else {
+            //         $query->where('show_to', '!=', '');
+            //     }
+            // })
             ->paginate($perPage);
         $newCars = $cars->map(function ($car) {
             return [
