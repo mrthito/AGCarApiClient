@@ -245,7 +245,7 @@ class VehicleController extends Controller
             }
 
             // update Car
-            Car::where('id', $vehicle->id)->update(['status_camera' => 0]);
+            Car::where('id', $id)->update(['status_camera' => 0]);
 
             return response()->json(['status' => 'success', 'message' => 'Images uploaded successfully'], 200);
         }
