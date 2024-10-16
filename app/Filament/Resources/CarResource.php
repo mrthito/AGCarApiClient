@@ -129,9 +129,9 @@ class CarResource extends Resource
                     ->native(false)
                     ->required(),
                 Forms\Components\Select::make('show_to')
-                    ->required()
+                    // ->required()
                     ->options([
-                        'all' => 'All',
+                        '' => 'All',
                         'user' => 'User',
                         'trader' => 'Trader',
                     ]),
@@ -252,7 +252,7 @@ class CarResource extends Resource
                     ->searchable(),
                 Tables\Columns\SelectColumn::make('show_to')
                     ->options([
-                        'all' => 'All',
+                        '' => 'All',
                         'user' => 'User',
                         'trader' => 'Trader',
                     ])
