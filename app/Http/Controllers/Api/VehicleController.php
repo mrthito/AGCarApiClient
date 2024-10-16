@@ -229,11 +229,11 @@ class VehicleController extends Controller
     function images(Request $request, $id)
     {
         try {
-            $vehicle = Car::findOrFail($id);
-            $vehicle->status_camera = 0;
-            $vehicle->save();
+            $vehicle1 = Car::findOrFail($id);
+            $vehicle1->status_camera = 0;
+            $vehicle1->save();
         } catch (\Exception $e) {
-            return response()->json(['status' => 'error', 'message' => 'Car not found'], 404);
+            return response()->json(['status' => 'error', 'message' => $e->getMessage()], 400);
         }
 
         $vehicle = Car::findOrFail($id);
