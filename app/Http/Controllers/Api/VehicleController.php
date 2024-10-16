@@ -7,6 +7,7 @@ use App\Models\Car;
 use App\Models\CarImage;
 use App\Models\CarMake;
 use App\Models\CarModel;
+use App\Models\Slider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Ramsey\Uuid\Uuid;
