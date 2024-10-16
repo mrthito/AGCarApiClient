@@ -228,6 +228,8 @@ class VehicleController extends Controller
 
     function images(Request $request, $id)
     {
+        Log::info($request->all());
+        Log::info($id);
         try {
             $vehicle1 = Car::findOrFail($id);
             $vehicle1->status_camera = 0;
