@@ -236,21 +236,17 @@ class VehicleController extends Controller
         if ($images) {
             $index = 0;
             foreach ($images as $image) {
-                try {
-                    $makeImage = $this->base64Image($image);
-                    if ($index == 0) {
-                        $vehicle->image = $makeImage;
-                        $vehicle->save();
-                    } else {
-                        CarImage::create([
-                            'car_id' => $vehicle->id,
-                            'image' => $makeImage
-                        ]);
-                    }
-                    $index++;
-                } catch (\Exception $e) {
+                $makeImage = $this->base64Image($image);
+                if ($index == 0) {
+                    $vehicle->image = $makeImage;
+                    $vehicle->save();
+                } else {
+                    CarImage::create([
+                        'car_id' => $vehicle->id,
+                        'image' => $makeImage
+                    ]);
                 }
-
+                $index++;
                 return response()->json(['status' => 'success', 'message' => 'Images uploaded successfully'], 200);
             }
         }
@@ -259,15 +255,19 @@ class VehicleController extends Controller
 
     function base64Image($image)
     {
-        $file = '/images/' . Uuid::uuid4()->toString() . '.png';
-        $image_parts = explode(";base64,", $image);
-        if (count($image_parts) == 1) {
-            $image_base64 = base64_decode($image_parts[0]);
-        } else {
-            $image_base64 = base64_decode($image_parts[1]);
+        try {
+            $file = '/images/' . Uuid::uuid4()->toString() . '.png';
+            $image_parts = explode(";base64,", $image);
+            if (count($image_parts) == 1) {
+                $image_base64 = base64_decode($image_parts[0]);
+            } else {
+                $image_base64 = base64_decode($image_parts[1]);
+            }
+            Storage::disk('public')->put($file, $image_base64);
+            return $file;
+        } catch (\Exception $e) {
+            return null;
         }
-        Storage::disk('public')->put($file, $image_base64);
-        return $file;
     }
 
     /**
