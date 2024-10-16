@@ -15,6 +15,7 @@
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
         "maatwebsite/excel": "^3.1",
+        "mrthito/ipatco": "0.0.3",
         "tomatophp/filament-accounts": "^2.1",
         "vormkracht10/filament-2fa": "^1.7"
     },

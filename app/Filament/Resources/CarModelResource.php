@@ -18,6 +18,7 @@ class CarModelResource extends Resource
     protected static ?string $model = CarModel::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-wrench';
+    protected static ?string $navigationGroup = 'Make Model';
 
     public static function form(Form $form): Form
     {

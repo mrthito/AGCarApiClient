@@ -75,7 +75,7 @@ class ListCars extends ListRecords
     public function getHeaderWidgets(): array
     {
         return [
-            AdvancedStatsOverviewWidget::class,
+            // AdvancedStatsOverviewWidget::class,
         ];
     }
 }

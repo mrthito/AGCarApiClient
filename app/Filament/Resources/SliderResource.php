@@ -27,8 +27,8 @@ class SliderResource extends Resource
                     ->required()
                     ->options([
                         'slider' => 'Slider',
-                        'homePage' => 'Top',
-                        'carPage' => 'Bottom',
+                        'homePage' => 'Homepage',
+                        'carPage' => 'Car Page',
                     ]),
                 Forms\Components\FileUpload::make('image')
                     ->image()

@@ -8,6 +8,7 @@ use Illuminate\Support\ServiceProvider;
 use Laravel\Fortify\Events\TwoFactorAuthenticationChallenged;
 use Laravel\Fortify\Events\TwoFactorAuthenticationEnabled;
 use Vormkracht10\TwoFactorAuth\Listeners\SendTwoFactorCodeListener;
+use MrThito\Ipatco\Provider;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -33,5 +34,9 @@ class AppServiceProvider extends ServiceProvider
             TwoFactorAuthenticationChallenged::class,
             TwoFactorAuthenticationEnabled::class
         ], SendTwoFactorCodeListener::class);
+
+        Event::listen(function (\SocialiteProviders\Manager\SocialiteWasCalled $event) {
+            $event->extendSocialite('ipatco', Provider::class);
+        });
     }
 }

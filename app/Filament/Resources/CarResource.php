@@ -34,6 +34,7 @@ class CarResource extends Resource
         return $form
             ->schema([
                 Forms\Components\FileUpload::make('image')
+                    ->label('Car Cover Image')
                     ->image()
                     ->required(),
                 Forms\Components\Select::make('db_classification')
@@ -110,6 +111,9 @@ class CarResource extends Resource
                     ]),
                 Forms\Components\TextInput::make('number')
                     ->required()
+                    ->label('Unique Number')
+                    ->hiddenOn(['edit'])
+                    ->unique()
                     ->numeric()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('price')
@@ -121,6 +125,7 @@ class CarResource extends Resource
                 Forms\Components\TextInput::make('buyer')
                     ->required(),
                 Forms\Components\DatePicker::make('buying_date')
+                    ->displayFormat('Y-m-d')
                     ->native(false)
                     ->required(),
                 Forms\Components\Select::make('show_to')
@@ -154,7 +159,9 @@ class CarResource extends Resource
                     ->prefix('$'),
                 Forms\Components\TextInput::make('city')
                     ->required(),
-                Forms\Components\TextInput::make('arrival_date')
+                Forms\Components\DatePicker::make('arrival_date')
+                    ->displayFormat('Y-m-d')
+                    ->native(false)
                     ->required(),
                 Forms\Components\Toggle::make('status')
                     ->label('Show this car on mobile app')
@@ -199,7 +206,7 @@ class CarResource extends Resource
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: false)
                     ->searchable(),
-            Tables\Columns\TextInputColumn::make('korean_price')
+                Tables\Columns\TextInputColumn::make('korean_price')
                     ->toggleable(isToggledHiddenByDefault: false)
                     ->sortable()
                     ->searchable(),
@@ -348,9 +355,9 @@ class CarResource extends Resource
                             ->required()
                             ->numeric()
                             ->maxLength(255),
-                        Forms\Components\TextInput::make('price')
-                            ->numeric()
-                            ->required(),
+                        // Forms\Components\TextInput::make('price')
+                        //     ->numeric()
+                        //     ->required(),
                     ])
                     ->query(function (Builder $query, array $data): Builder {
                         return $query

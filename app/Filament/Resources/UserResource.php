@@ -43,6 +43,7 @@ class UserResource extends Resource
                         'admin' => 'Admin',
                         'user' => 'User',
                         'trader' => 'Trader',
+                        'camera' => 'Camera',
                     ])
                     ->required(),
                 Forms\Components\TextInput::make('trader_otp')

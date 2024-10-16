@@ -18,6 +18,7 @@ class CarMakeResource extends Resource
     protected static ?string $model = CarMake::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-tag';
+    protected static ?string $navigationGroup = 'Make Model';
 
     public static function form(Form $form): Form
     {

@@ -35,4 +35,10 @@ return [
         ],
     ],
 
+        'ipatco' => [
+            'client_id' => env('IPATCO_CLIENT_ID'),
+            'client_secret' => env('IPATCO_CLIENT_SECRET'),
+            'redirect' => env('IPATCO_REDIRECT_URI')
+        ],
+
 ];

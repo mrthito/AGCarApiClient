@@ -36,9 +36,28 @@ class VehicleController extends Controller
                         ->orWhere('number', 'like', '%' . $request->input('search') . '%')
                         ->orWhere('content', 'like', '%' . $request->input('search') . '%')
                         ->orWhere('status', 'like', '%' . $request->input('search') . '%')
-                        ->orWhere('show_price', 'like', '%' . $request->input('search') . '%')
+                        ->orWhere('city', 'like', '%' . $request->input('search') . '%')
                         ->orWhere('price', 'like', '%' . $request->input('search') . '%');
-                });
+                })
+                    ->whereHas('carManufacturer', function ($query) use ($request) {
+                        $query->where('name', 'like', '%' . $request->input('search') . '%');
+                    })
+                    ->whereHas('carModel', function ($query) use ($request) {
+                        $query->where('name', 'like', '%' . $request->input('search') . '%');
+                    });
+            })
+            // location, fuel type, color, year, city
+            ->when($request->has('location') && $request->input('location') != '', function ($query) use ($request) {
+                $query->where('city', 'like', '%' . $request->input('location') . '%');
+            })
+            ->when($request->has('fuel_type') && $request->input('fuel_type') != '', function ($query) use ($request) {
+                $query->where('fuel_type', 'like', '%' . $request->input('fuel_type') . '%');
+            })
+            ->when($request->has('color') && $request->input('color') != '', function ($query) use ($request) {
+                $query->where('color', 'like', '%' . $request->input('color') . '%');
+            })
+            ->when($request->has('year') && $request->input('year') != '', function ($query) use ($request) {
+                $query->where('year', 'like', '%' . $request->input('year') . '%');
             })
             ->where('status_camera', 1)
             ->paginate($perPage);
@@ -101,7 +120,25 @@ class VehicleController extends Controller
                         ->orWhere('status', 'like', '%' . $request->input('search') . '%')
                         ->orWhere('show_price', 'like', '%' . $request->input('search') . '%')
                         ->orWhere('price', 'like', '%' . $request->input('search') . '%');
-                });
+                })
+                    ->whereHas('carManufacturer', function ($query) use ($request) {
+                        $query->where('name', 'like', '%' . $request->input('search') . '%');
+                    })
+                    ->whereHas('carModel', function ($query) use ($request) {
+                        $query->where('name', 'like', '%' . $request->input('search') . '%');
+                    });
+            })
+            ->when($request->has('location') && $request->input('location') != '', function ($query) use ($request) {
+                $query->where('city', 'like', '%' . $request->input('location') . '%');
+            })
+            ->when($request->has('fuel_type') && $request->input('fuel_type') != '', function ($query) use ($request) {
+                $query->where('fuel_type', 'like', '%' . $request->input('fuel_type') . '%');
+            })
+            ->when($request->has('color') && $request->input('color') != '', function ($query) use ($request) {
+                $query->where('color', 'like', '%' . $request->input('color') . '%');
+            })
+            ->when($request->has('year') && $request->input('year') != '', function ($query) use ($request) {
+                $query->where('year', 'like', '%' . $request->input('year') . '%');
             })
             ->where('status', 1)
             ->when($request->has('role') && $request->input('role') != 'all' && $request->input('role') != '', function ($query) use ($request) {
@@ -206,6 +243,9 @@ class VehicleController extends Controller
                 }
                 $index++;
             }
+
+            // update Car
+            Car::where('id', $vehicle->id)->update(['status_camera' => 0]);
 
             return response()->json(['status' => 'success', 'message' => 'Images uploaded successfully'], 200);
         }
