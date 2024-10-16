@@ -56,7 +56,7 @@ class CarResource extends Resource
                     ->live()
                     ->placeholder('Select Car Manufacturer'),
                 Forms\Components\Select::make('model')
-                    ->searchable()
+                    // ->searchable()
                     ->required()
                     ->disabled(fn(Forms\Get $get): bool => ! filled($get('car_manufacturer')))
                     ->options(function (Forms\Get $get) {
