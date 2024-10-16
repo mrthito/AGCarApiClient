@@ -9,6 +9,7 @@ use App\Models\CarMake;
 use App\Models\CarModel;
 use App\Models\Slider;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Ramsey\Uuid\Uuid;
 
@@ -237,6 +238,7 @@ class VehicleController extends Controller
             $index = 0;
             foreach ($images as $image) {
                 $makeImage = $this->base64Image($image);
+                Log::info($makeImage);
                 if ($index == 0) {
                     $vehicle->image = $makeImage;
                     $vehicle->save();
