@@ -368,8 +368,7 @@ class CarResource extends Resource
                             ->when($data['year'], fn(Builder $query, $value) => $query->where('year', $value))
                             ->when($data['color'], fn(Builder $query, $value) => $query->where('color', $value))
                             ->when($data['fuel_type'], fn(Builder $query, $value) => $query->where('fuel_type', $value))
-                            ->when($data['number'], fn(Builder $query, $value) => $query->where('number', 'like', "%$value%"))
-                            ->when($data['price'], fn(Builder $query, $value) => $query->where('price', $value));
+                            ->when($data['number'], fn(Builder $query, $value) => $query->where('number', 'like', "%$value%"));
                     })
             ])
             ->actions([
