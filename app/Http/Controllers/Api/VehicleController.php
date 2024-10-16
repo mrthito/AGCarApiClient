@@ -245,7 +245,7 @@ class VehicleController extends Controller
                     $vehicle->save();
                 } else {
                     CarImage::create([
-                        'car_id' => $vehicle->id,
+                        'car_id' => $id,
                         'image' => $makeImage
                     ]);
                 }
