@@ -225,30 +225,34 @@ class VehicleController extends Controller
 
     function images(Request $request, $id)
     {
-        $vehicle = Car::findOrFail($id);
-        $vehicle->status_camera = 0;
-        $vehicle->save();
+        try {
+            $vehicle = Car::findOrFail($id);
+            $vehicle->status_camera = 0;
+            $vehicle->save();
 
-        $vehicle = Car::findOrFail($id);
-        $images = $request->images;
+            $vehicle = Car::findOrFail($id);
+            $images = $request->images;
 
-        if ($images) {
-            $index = 0;
-            foreach ($images as $image) {
-                $makeImage = $this->base64Image($image);
-                if ($index == 0) {
-                    $vehicle->image = $makeImage;
-                    $vehicle->save();
-                } else {
-                    CarImage::create([
-                        'car_id' => $vehicle->id,
-                        'image' => $makeImage
-                    ]);
+            if ($images) {
+                $index = 0;
+                foreach ($images as $image) {
+                    $makeImage = $this->base64Image($image);
+                    if ($index == 0) {
+                        $vehicle->image = $makeImage;
+                        $vehicle->save();
+                    } else {
+                        CarImage::create([
+                            'car_id' => $vehicle->id,
+                            'image' => $makeImage
+                        ]);
+                    }
+                    $index++;
                 }
-                $index++;
-            }
 
-            return response()->json(['status' => 'success', 'message' => 'Images uploaded successfully'], 200);
+                return response()->json(['status' => 'success', 'message' => 'Images uploaded successfully'], 200);
+            }
+        } catch (\Exception $e) {
+            return response()->json(['status' => 'error', 'message' => $e->getMessage()], 400);
         }
 
         return response()->json(['status' => 'error', 'message' => 'No image uploaded'], 400);
