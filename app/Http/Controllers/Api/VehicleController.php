@@ -225,17 +225,17 @@ class VehicleController extends Controller
 
     function images(Request $request, $id)
     {
-            $vehicle = Car::findOrFail($id);
-            $vehicle->status_camera = 0;
-            $vehicle->save();
+        $vehicle = Car::findOrFail($id);
+        $vehicle->status_camera = 0;
+        $vehicle->save();
 
-            $vehicle = Car::findOrFail($id);
-            $images = $request->images;
+        $vehicle = Car::findOrFail($id);
+        $images = $request->images;
 
-            if ($images) {
-                $index = 0;
-                foreach ($images as $image) {
-                    try{
+        if ($images) {
+            $index = 0;
+            foreach ($images as $image) {
+                try {
                     $makeImage = $this->base64Image($image);
                     if ($index == 0) {
                         $vehicle->image = $makeImage;
@@ -247,12 +247,12 @@ class VehicleController extends Controller
                         ]);
                     }
                     $index++;
-                }catch(\Exception $e){
+                } catch (\Exception $e) {
                 }
 
                 return response()->json(['status' => 'success', 'message' => 'Images uploaded successfully'], 200);
             }
-
+        }
         return response()->json(['status' => 'error', 'message' => 'No image uploaded'], 400);
     }
 
@@ -477,10 +477,11 @@ class VehicleController extends Controller
         return response()->json(['status' => 'success', 'data' => $models], 200);
     }
 
-    function sliders(){
+    function sliders()
+    {
         $slider = Slider::where('position', 'homePage')->latest()->first()?->image;
         $slider2 = Slider::where('position', 'homePage')->latest()->first()?->image;
-        $slider3 = Slider::where('position', 'slider')->latest()->get()?->map(function($slider){
+        $slider3 = Slider::where('position', 'slider')->latest()->get()?->map(function ($slider) {
             return $slider->image;
         });
         return response()->json(['status' => 'success', 'data' => [
