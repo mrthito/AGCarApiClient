@@ -144,15 +144,9 @@ class VehicleController extends Controller
                 $query->where('year', 'like', '%' . $request->input('year') . '%');
             })
             ->where('status', 1)
-            // ->when($request->has('role')  && $request->input('role') != '', function ($query) use ($request) {
-            //     if ($request->input('role') == 'user') {
-            //         $query->where('show_to', 'like', '%' . $request->input('role') . '%');
-            //     } elseif ($request->input('role') == 'trader') {
-            //         $query->where('show_to', 'like', '%' . $request->input('role') . '%');
-            //     } else {
-            //         $query->where('show_to', '!=', '');
-            //     }
-            // })
+            ->when($request->has('role')  && $request->input('role') != '', function ($query) use ($request) {
+                $query->where('show_to', 'like', '%' . $request->input('role') . '%')->orWhereNull('show_to');
+            })
             ->paginate($perPage);
         $newCars = $cars->map(function ($car) {
             return [
@@ -256,8 +250,8 @@ class VehicleController extends Controller
                     ]);
                 }
                 $index++;
-                return response()->json(['status' => 'success', 'message' => 'Images uploaded successfully'], 200);
             }
+            return response()->json(['status' => 'success', 'message' => 'Images uploaded successfully'], 200);
         }
         return response()->json(['status' => 'error', 'message' => 'No image uploaded'], 400);
     }
