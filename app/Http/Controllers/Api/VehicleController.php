@@ -294,20 +294,78 @@ class VehicleController extends Controller
      */
     public function similarCars(Request $request, $id)
     {
-        // $subject = $request->input('name');
-        $vehicle = Car::findOrFail($id);
-        $role = $request->input('role');
-        // all similar vehicle data
-        $cars = Car::where('status', 1)
-            ->where('id', '<>', $vehicle->id)
-            ->where(function ($query) use ($vehicle) {
-                $query->where('car_manufacturer', $vehicle->car_manufacturer)
-                    ->where('model', $vehicle->model);
+        $perPage = $request->input('per_page', 15);
+        $cars = Car::with(['carManufacturer', 'carModel'])
+            ->where('id', '!=', $id)
+            ->when($request->has('search') && $request->input('search') != '', function ($query) use ($request) {
+                $query->where(function ($query) use ($request) {
+                    $query->where('db_classification', 'like', '%' . $request->input('search') . '%')
+                        ->orWhere('chasiss_number', 'like', '%' . $request->input('search') . '%')
+                        ->orWhere('car_manufacturer', 'like', '%' . $request->input('search') . '%')
+                        ->orWhere('model', 'like', '%' . $request->input('search') . '%')
+                        ->orWhere('year', 'like', '%' . $request->input('search') . '%')
+                        ->orWhere('color', 'like', '%' . $request->input('search') . '%')
+                        ->orWhere('fuel_type', 'like', '%' . $request->input('search') . '%')
+                        ->orWhere('number', 'like', '%' . $request->input('search') . '%')
+                        ->orWhere('content', 'like', '%' . $request->input('search') . '%')
+                        ->orWhere('status', 'like', '%' . $request->input('search') . '%')
+                        ->orWhere('city', 'like', '%' . $request->input('search') . '%')
+                        ->orWhere('price', 'like', '%' . $request->input('search') . '%');
+                })
+                    ->orWhereHas('carManufacturer', function ($query) use ($request) {
+                        $query->where('name', 'like', '%' . $request->input('search') . '%');
+                    })
+                    ->orWhereHas('carModel', function ($query) use ($request) {
+                        $query->where('name', 'like', '%' . $request->input('search') . '%');
+                    });
             })
-            ->limit(5)
-            ->get();
+            // location, fuel type, color, year, city
+            ->when($request->has('location') && $request->input('location') != '', function ($query) use ($request) {
+                $query->where('city', 'like', '%' . $request->input('location') . '%');
+            })
+            ->when($request->has('fuel_type') && $request->input('fuel_type') != '', function ($query) use ($request) {
+                $query->where('fuel_type', 'like', '%' . $request->input('fuel_type') . '%');
+            })
+            ->when($request->has('color') && $request->input('color') != '', function ($query) use ($request) {
+                $query->where('color', 'like', '%' . $request->input('color') . '%');
+            })
+            ->when($request->has('year') && $request->input('year') != '', function ($query) use ($request) {
+                $query->where('year', 'like', '%' . $request->input('year') . '%');
+            })
+            ->where('status_camera', 1)
+            ->paginate($perPage);
+        $newCars = $cars->map(function ($car) {
+            return [
+                'id' => $car->id,
+                'image' => $car->image ? asset('storage/' . $car->image) : null,
+                'db_classification' => $car->db_classification,
+                'chasiss_number' => $car->chasiss_number,
+                'car_manufacturer' => $car->carManufacturer->name,
+                'model' => $car->carModel->name,
+                'year' => $car->year,
+                'color' => $car->color,
+                'fuel_type' => $car->fuel_type,
+                'number' => $car->number,
+                'content' => $car->content,
+                'status' => $car->status,
+                'show_price' => $car->show_price,
+                'price' => $car->price,
 
-        return response()->json(['status' => 'success', 'data' => $cars], 200);
+                'buyer' => $car->buyer,
+                'buying_date' => $car->buying_date,
+                'company_source' => $car->company_source,
+                'korean_price' => $car->korean_price,
+                'price_in_dollar' => $car->price_in_dollar,
+                'shipping_price' => $car->shipping_price,
+                'custom_price' => $car->custom_price,
+                'fixing_price' => $car->fixing_price,
+                'total_cost' => $car->total_cost,
+                'city' => $car->city,
+                'arrival_date' => $car->arrival_date,
+            ];
+        });
+
+        return response()->json(['status' => 'success', 'data' => $newCars], 200);
     }
 
     /**
