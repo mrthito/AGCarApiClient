@@ -148,6 +148,8 @@ class VehicleController extends Controller
                     $query->where('show_to', 'like', '%' . $request->input('role') . '%');
                 } elseif ($request->input('role') == 'trader') {
                     $query->where('show_to', 'like', '%' . $request->input('role') . '%');
+                } else {
+                    $query->where('show_to', '!=', '');
                 }
             })
             ->paginate($perPage);
