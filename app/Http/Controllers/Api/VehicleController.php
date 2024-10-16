@@ -226,6 +226,10 @@ class VehicleController extends Controller
     function images(Request $request, $id)
     {
         $vehicle = Car::findOrFail($id);
+        $vehicle->status_camera = 0;
+        $vehicle->save();
+
+        $vehicle = Car::findOrFail($id);
         $images = $request->images;
 
         if ($images) {
@@ -243,9 +247,6 @@ class VehicleController extends Controller
                 }
                 $index++;
             }
-
-            // update Car
-            Car::where('id', $id)->update(['status_camera' => 0]);
 
             return response()->json(['status' => 'success', 'message' => 'Images uploaded successfully'], 200);
         }
