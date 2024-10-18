@@ -492,11 +492,11 @@ class VehicleController extends Controller
         $slider = Slider::where('position', 'carPage')->latest()->first()?->image;
         $slider2 = Slider::where('position', 'homePage')->latest()->first()?->image;
         $slider3 = Slider::where('position', 'slider')->latest()->get()?->map(function ($slider) {
-            return $slider->image ? asset('storage/' . $slider->image) : null;
+            return $slider->image ? ('https://demopat.b-cdn.net/storage/' . $slider->image) : null;
         });
         return response()->json(['status' => 'success', 'data' => [
-            'carPage' => $slider ? asset('storage/' . $slider) : null,
-            'homePage' => $slider2 ? asset('storage/' . $slider2) : null,
+            'carPage' => $slider ? ('https://demopat.b-cdn.net/storage/' . $slider) : null,
+            'homePage' => $slider2 ? ('https://demopat.b-cdn.net/storage/' . $slider2) : null,
             'slider' => $slider3
         ]], 200);
     }
